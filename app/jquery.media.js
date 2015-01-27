@@ -5,6 +5,7 @@
  * @class Media
  * @type {{convertToMedia: Function, undo: Function}}
  */
+var mime = require('mime-types');
 
 var Media;
 Media = {
@@ -30,7 +31,9 @@ Media = {
             // Run the beforeConversion callback
             if(beforeConversion){ beforeConversion(this, settings); }
 
-            if(!settings.type){
+            if(settings.type) {
+                settings.type = mime.extension(settings.type);
+            } else {
                 settings.type = Media.private.getExtensionType(settings.src.toLowerCase());
             }
 
